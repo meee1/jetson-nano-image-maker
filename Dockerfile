@@ -130,3 +130,22 @@ RUN rosdep init && rosdep update
 RUN rosinstall_generator ros_comm common_msgs sensor_msgs image_transport vision_opencv tf mavlink mavros --rosdistro noetic --deps --wet-only --tar > ros-noetic-wet.rosinstall
 RUN vcs import --input ros-noetic-wet.rosinstall ./src
 RUN rosdep install --from-paths ./src --ignore-packages-from-source --rosdistro noetic -y
+
+WORKDIR /openvins_ws/src
+
+RUN git clone https://github.com/orocos/orocos_kinematics_dynamics.git
+
+RUN git clone https://github.com/ioarun/open_vins.git
+
+RUN git clone https://github.com/ioarun/gscam.git
+
+WORKDIR /openvins_ws
+
+RUN catkin config --merge-devel --merge-install --install
+RUN catkin build
+
+RUN ./src/mavros/mavros/scripts/install_geographiclib_datasets.sh
+
+RUN catkin build gscam
+
+
