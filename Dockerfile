@@ -61,7 +61,7 @@ RUN usermod -a -G sudo jetson
 
 RUN apt-get update && apt-get install -y wget git nano cmake tar build-essential unzip pkg-config curl g++ python3-dev autotools-dev libicu-dev libbz2-dev libapr1 libapr1-dev libaprutil1-dev automake bash-completion build-essential btrfs-progs dnsutils htop iotop isc-dhcp-client iputils-ping kmod linux-firmware locales net-tools netplan.io pciutils ssh udev sudo unzip usbutils wpasupplicant network-manager
 
-RUN apt-get update && apt-get install -y libopencv-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-pluginsgood1.0-dev libboost-all-dev libeigen3-dev libceres-dev libpoco-dev libtinyxml2-dev liblz4-dev
+RUN apt-get update && apt-get install -y libopencv-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-good1.0-dev libboost-all-dev libeigen3-dev libceres-dev libpoco-dev libtinyxml2-dev liblz4-dev
 
 RUN mkdir -p /openvins_ws/src && cd /openvins_ws && mkdir dependencies && cd dependencies
 WORKDIR /openvins_ws/dependencies
