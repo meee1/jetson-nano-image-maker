@@ -142,8 +142,8 @@ RUN git clone https://github.com/ioarun/gscam.git
 WORKDIR /openvins_ws
 
 ENV ROS_PYTHON_VERSION=3
-RUN catkin config --merge-devel --merge-install --install
-RUN catkin build
+#RUN catkin config --merge-devel --merge-install --install
+#RUN catkin build
 
 RUN ./src/mavros/mavros/scripts/install_geographiclib_datasets.sh
 
