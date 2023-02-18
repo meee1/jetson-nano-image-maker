@@ -61,25 +61,27 @@ RUN usermod -a -G sudo jetson
 
 RUN apt-get update && apt-get install -y wget git nano cmake tar build-essential unzip pkg-config curl g++ python3-dev autotools-dev libicu-dev libbz2-dev libapr1 libapr1-dev libaprutil1-dev automake bash-completion build-essential btrfs-progs dnsutils htop iotop isc-dhcp-client iputils-ping kmod linux-firmware locales net-tools netplan.io pciutils ssh udev sudo unzip usbutils wpasupplicant network-manager
 
+RUN apt-get update && apt-get install -y libopencv-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-pluginsgood1.0-dev libboost-all-dev libeigen3-dev libceres-dev libpoco-dev libtinyxml2-dev liblz4-dev
+
 RUN mkdir -p /openvins_ws/src && cd /openvins_ws && mkdir dependencies && cd dependencies
 WORKDIR /openvins_ws/dependencies
-RUN wget https://gitlab.com/libeigen/eigen/-/archive/3.3.4/eigen-3.3.4.tar.gz && tar -xvf eigen-3.3.4.tar.gz && cd eigen-3.3.4 && mkdir build && cd build && cmake .. && make -j8 && make install 
+#RUN wget https://gitlab.com/libeigen/eigen/-/archive/3.3.4/eigen-3.3.4.tar.gz && tar -xvf eigen-3.3.4.tar.gz && cd eigen-3.3.4 && mkdir build && cd build && cmake .. && make -j8 && make install 
 
-RUN git clone --branch 3.4.18 https://github.com/opencv/opencv.git && cd opencv && mkdir build && cd build && cmake .. && make -j8  && make install
+#RUN git clone --branch 3.4.18 https://github.com/opencv/opencv.git && cd opencv && mkdir build && cd build && cmake .. && make -j8  && make install
 
-RUN wget https://boostorg.jfrog.io/artifactory/main/release/1.81.0/source/boost_1_81_0.tar.gz && tar -xvf boost_1_81_0.tar.gz && cd boost_1_81_0 && ./bootstrap.sh && ./b2 -j8 install
+#RUN wget https://boostorg.jfrog.io/artifactory/main/release/1.81.0/source/boost_1_81_0.tar.gz && tar -xvf boost_1_81_0.tar.gz && cd boost_1_81_0 && ./bootstrap.sh && ./b2 -j8 install
 
 RUN git clone https://github.com/ros/console_bridge.git && cd console_bridge && mkdir build && cd build && cmake .. && make -j8  && make install
 
 RUN git clone --branch v0.5.0 https://github.com/google/glog.git && cd glog && mkdir build && cd build && cmake .. && make -j8  && make install
 
-RUN git clone --branch 2.0.0 https://github.com/ceres-solver/ceres-solver.git && cd ceres-solver && mkdir build && cd build && cmake .. && make -j8  && make install
+#RUN git clone --branch 2.0.0 https://github.com/ceres-solver/ceres-solver.git && cd ceres-solver && mkdir build && cd build && cmake .. && make -j8  && make install
 
-RUN wget https://pocoproject.org/releases/poco-1.8.0.1/poco-1.8.0.1.tar.gz && tar -xvf poco-1.8.0.1.tar.gz && cd poco-1.8.0.1 && make -j8 && make install
+#RUN wget https://pocoproject.org/releases/poco-1.8.0.1/poco-1.8.0.1.tar.gz && tar -xvf poco-1.8.0.1.tar.gz && cd poco-1.8.0.1 && make -j8 && make install
 
-RUN git clone --branch 8.0.0 https://github.com/leethomason/tinyxml2.git && cd tinyxml2 && mkdir build && cd build && cmake .. && make -j8  && make install
+#RUN git clone --branch 8.0.0 https://github.com/leethomason/tinyxml2.git && cd tinyxml2 && mkdir build && cd build && cmake .. && make -j8  && make install
 
-RUN git clone https://github.com/lz4/lz4 && cd lz4 && make -j8 && make install
+#RUN git clone https://github.com/lz4/lz4 && cd lz4 && make -j8 && make install
 
 RUN git clone https://github.com/google/googletest.git -b release-1.12.1 && cd googletest && mkdir build && cd build && cmake .. && make -j8  && make install
 
@@ -111,11 +113,11 @@ RUN wget https://sourceforge.net/projects/geographiclib/files/distrib-C++/Geogra
 
 RUN wget https://github.com/jbeder/yaml-cpp/archive/refs/tags/yaml-cpp-0.7.0.tar.gz && tar -xvf yaml-cpp-0.7.0.tar.gz && cd yaml-cpp-yaml-cpp-0.7.0 && mkdir build && cd build && cmake -DYAML_BUILD_SHARED_LIBS=on .. && make -j8 && make install
 
-RUN wget https://gitlab.freedesktop.org/gstreamer/gstreamer/-/archive/1.14/gstreamer-1.14.tar.gz && tar -xvf gstreamer-1.14.tar.gz && cd gstreamer-1.14 && mkdir build && meson build && cd build && ninja && ninja install 
+#RUN wget https://gitlab.freedesktop.org/gstreamer/gstreamer/-/archive/1.14/gstreamer-1.14.tar.gz && tar -xvf gstreamer-1.14.tar.gz && cd gstreamer-1.14 && mkdir build && meson build && cd build && ninja && ninja install 
 
-RUN wget https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/-/archive/1.14/gst-plugins-base-1.14.tar.gz && tar -xvf gst-plugins-base-1.14.tar.gz && cd gst-plugins-base-1.14 && mkdir build && meson build && cd build && ninja && ninja install 
+#RUN wget https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/-/archive/1.14/gst-plugins-base-1.14.tar.gz && tar -xvf gst-plugins-base-1.14.tar.gz && cd gst-plugins-base-1.14 && mkdir build && meson build && cd build && ninja && ninja install 
 
-RUN wget https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/archive/1.14/gst-plugins-good-1.14.tar.gz && tar -xvf gst-plugins-good-1.14.tar.gz && cd gst-plugins-good-1.14 && mkdir build && meson build && cd build && ninja && ninja install 
+#RUN wget https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/archive/1.14/gst-plugins-good-1.14.tar.gz && tar -xvf gst-plugins-good-1.14.tar.gz && cd gst-plugins-good-1.14 && mkdir build && meson build && cd build && ninja && ninja install 
 
 
 WORKDIR /openvins_ws
