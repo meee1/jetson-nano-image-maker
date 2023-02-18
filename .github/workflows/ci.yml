@@ -14,13 +14,14 @@ jobs:
       matrix:
         include:
           - board: jetson-nano
-            revision: 200
+            revision: 300
 
     env:
       JETSON_ROOTFS_DIR: /tmp/jetson-builder/rootfs
       JETSON_BUILD_DIR: /tmp/jetson-builder/build
       JETSON_NANO_BOARD: ${{ matrix.board }}
       JETSON_NANO_REVISION: ${{ matrix.revision }}
+      ROS_PYTHON_VERSION: 3
     steps:
       - uses: actions/checkout@v2
       - name: Set up QEMU
