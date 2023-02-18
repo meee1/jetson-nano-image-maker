@@ -127,7 +127,7 @@ RUN curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt
 RUN apt update && apt-get install python3-dev python3-rosdep python3-rosinstall-generator python3-catkin-tools -y
 RUN pip3 install vcstool empy numpy defusedxml future 
 RUN rosdep init && rosdep update
-RUN rosinstall_generator ros_comm common_msgs sensor_msgs image_transport vision_opencv tf mavlink mavros --rosdistro noetic --deps --wet-only --tar > ros-noetic-wet.rosinstall
+RUN rosinstall_generator ros_comm common_msgs sensor_msgs image_transport vision_opencv tf mavlink mavros nodelet --rosdistro noetic --deps --wet-only --tar > ros-noetic-wet.rosinstall
 RUN vcs import --input ros-noetic-wet.rosinstall ./src
 RUN rosdep install --from-paths ./src --ignore-packages-from-source --rosdistro noetic -y
 
