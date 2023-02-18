@@ -59,7 +59,7 @@ RUN echo 'jetson:jetson' | chpasswd
 
 RUN usermod -a -G sudo jetson
 
-RUN apt-get update && apt-get install -y wget git nano cmake tar build-essential unzip pkg-config curl g++ python3-dev autotools-dev libicu-dev libbz2-dev libapr1 libapr1-dev libaprutil1-dev automake bash-completion build-essential btrfs-progs dnsutils htop iotop isc-dhcp-client iputils-ping kmod linux-firmware locales net-tools netplan.io pciutils ssh udev sudo unzip usbutils wpasupplicant network-manager
+RUN apt-get update && apt-get install -y wget git nano cmake tar build-essential unzip pkg-config curl g++ python3-dev autotools-dev libicu-dev libbz2-dev libapr1 libapr1-dev libaprutil1-dev automake bash-completion build-essential btrfs-progs dnsutils htop iotop isc-dhcp-client iputils-ping kmod linux-firmware locales net-tools netplan.io pciutils ssh udev sudo unzip usbutils wpasupplicant network-manager python3-pip
 
 RUN apt-get update && apt-get install -y libopencv-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-good1.0-dev libboost-all-dev libeigen3-dev libceres-dev libpoco-dev libtinyxml2-dev liblz4-dev libssl-dev
 
@@ -125,7 +125,7 @@ WORKDIR /openvins_ws
 RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 RUN curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add -
 RUN apt update && apt-get install python3-dev python3-rosdep python3-rosinstall-generator python3-catkin-tools -y
-RUN pip install vcstool empy numpy defusedxml future 
+RUN pip3 install vcstool empy numpy defusedxml future 
 RUN rosdep init && rosdep update
 RUN rosinstall_generator ros_comm common_msgs sensor_msgs image_transport vision_opencv tf mavlink mavros --rosdistro noetic --deps --wet-only --tar > ros-noetic-wet.rosinstall
 RUN vcs import --input ros-noetic-wet.rosinstall ./src
