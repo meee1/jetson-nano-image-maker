@@ -43,10 +43,12 @@ jobs:
           set -x
           docker export $(docker create --name nano-rootfs --platform linux/arm64 jetson-nano-image) -o rootfs.tar
           docker rm nano-rootfs
+          df -h
           docker rmi jetson-nano-image
           mkdir -p /tmp/jetson-builder/rootfs
           sudo tar --same-owner -xf rootfs.tar -C /tmp/jetson-builder/rootfs
           rm -f rootfs.tar
+          du -hd 2 /tmp/jetson-builder/rootfs/* | sort -h
 
       - name: Create jetson.img
         run: |
