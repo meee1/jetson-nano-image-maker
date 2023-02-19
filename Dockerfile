@@ -149,5 +149,9 @@ RUN ./src/mavros/mavros/scripts/install_geographiclib_datasets.sh
 
 RUN catkin build gscam
 
-RUN catkin clean --yes
+RUN catkin build orocos_kinematics_dynamics
+
+RUN catkin build open_vins
+
+#RUN catkin clean --yes
 
