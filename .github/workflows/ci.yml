@@ -40,13 +40,17 @@ jobs:
 
       - name: Export rootfs
         run: |
+          set -x
           docker export $(docker create --name nano-rootfs --platform linux/arm64 jetson-nano-image) -o rootfs.tar
           docker rm nano-rootfs
+          docker rmi jetson-nano-image
           mkdir -p /tmp/jetson-builder/rootfs
           sudo tar --same-owner -xf rootfs.tar -C /tmp/jetson-builder/rootfs
+          rm -f rootfs.tar
 
       - name: Create jetson.img
         run: |
+          set -x
           sudo apt install -y libxml2-utils
           sudo -E ./create-image.sh
 
