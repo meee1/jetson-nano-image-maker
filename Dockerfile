@@ -149,6 +149,8 @@ RUN catkin build gscam
 
 #RUN catkin config --merge-devel --merge-install --install
 
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/aarch64-linux-gnu/tegra
+
 RUN catkin build
 
 #RUN catkin clean --yes
