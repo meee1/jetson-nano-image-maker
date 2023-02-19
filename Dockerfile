@@ -149,5 +149,5 @@ RUN ./src/mavros/mavros/scripts/install_geographiclib_datasets.sh
 
 RUN catkin build gscam
 
-RUN catkin clean
+RUN catkin clean --yes
 
