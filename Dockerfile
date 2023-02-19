@@ -147,7 +147,7 @@ RUN ./src/mavros/mavros/scripts/install_geographiclib_datasets.sh
 
 RUN catkin build gscam
 
-RUN catkin config --merge-devel --merge-install --install
+#RUN catkin config --merge-devel --merge-install --install
 
 RUN catkin build
 
