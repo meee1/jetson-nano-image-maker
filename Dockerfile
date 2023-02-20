@@ -147,9 +147,9 @@ RUN ( \
 RUN chmod 755 /ros_entrypoint.sh
 ENTRYPOINT ["/ros_entrypoint.sh"]
 
-RUN catkin build
+RUN source "/opt/ros/$ROS_DISTRO/setup.bash" --; catkin build
 
-RUN catkin build gscam
+RUN source "/opt/ros/$ROS_DISTRO/setup.bash" --; catkin build gscam
 
 #RUN catkin build ov_core
 
