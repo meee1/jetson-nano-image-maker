@@ -160,4 +160,17 @@ RUN catkin build ov_core
 #RUN catkin build ov_msckf
 
 #RUN catkin clean --yes
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
+
+RUN echo 'Etc/UTC' > /etc/timezone &&     ln -s /usr/share/zoneinfo/Etc/UTC /etc/localtime &&     apt-get update &&     apt-get install -q -y --no-install-recommends tzdata &&     rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends     dirmngr     gnupg2     && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends     ros-noetic-ros-core     && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends     ros-noetic-ros-base     && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends     ros-noetic-robot     && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && apt-get install -y libeigen3-dev nano git && apt-get clean
+RUN apt-get install -y python3-catkin-tools python3-osrf-pycommon && apt-get clean
+RUN apt-get install -y cmake libgoogle-glog-dev libgflags-dev libatlas-base-dev libeigen3-dev libsuitesparse-dev libceres-dev && apt-get clean
+RUN apt-get update && apt-get install -y python3-dev python3-matplotlib python3-numpy python3-psutil python3-tk && apt-get clean
 
