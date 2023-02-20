@@ -153,7 +153,9 @@ ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/aarch64-linux-gnu/tegra
 
 RUN catkin build ov_core
 
-RUN catkin build
+RUN catkin build ov_init
+
+RUN catkin build ov_msckf
 
 #RUN catkin clean --yes
 
