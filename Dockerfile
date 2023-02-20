@@ -12,6 +12,8 @@ RUN mkdir -p /opt/nvidia/l4t-packages && touch /opt/nvidia/l4t-packages/.nv-l4t-
 COPY root/etc/apt/ /etc/apt
 COPY root/usr/share/keyrings /usr/share/keyrings
 
+RUN apt update
+
 # https://docs.nvidia.com/jetson/l4t/index.html#page/Tegra%20Linux%20Driver%20Package%20Development%20Guide/updating_jetson_and_host.html
 RUN apt install -y -o Dpkg::Options::="--force-overwrite" \
     nvidia-l4t-core \
@@ -145,7 +147,7 @@ RUN ( \
 RUN chmod 755 /ros_entrypoint.sh
 ENTRYPOINT ["/ros_entrypoint.sh"]
 
-RUN catkin build
+#RUN catkin build
 
 #RUN catkin build gscam
 
