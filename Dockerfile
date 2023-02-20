@@ -137,6 +137,16 @@ RUN ./src/mavros/mavros/scripts/install_geographiclib_datasets.sh
 
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/aarch64-linux-gnu/tegra
 
+RUN ( \
+    echo '#!/bin/bash'; \
+    echo 'source "/opt/ros/$ROS_DISTRO/setup.bash" --'; \
+    echo 'exec "$@"'; \
+  ) > /ros_entrypoint.sh
+RUN chmod 755 /ros_entrypoint.sh
+ENTRYPOINT ["/ros_entrypoint.sh"]
+
+RUN catkin build
+
 #RUN catkin build gscam
 
 #RUN catkin build ov_core
