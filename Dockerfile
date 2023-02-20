@@ -147,6 +147,8 @@ RUN ./src/mavros/mavros/scripts/install_geographiclib_datasets.sh
 
 RUN catkin build gscam
 
+RUN apt update && apt-get install -y ros-noetic-ros-base
+
 #RUN catkin config --merge-devel --merge-install --install
 
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/aarch64-linux-gnu/tegra
