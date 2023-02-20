@@ -1,39 +1,16 @@
 FROM ubuntu:20.04 as base
 
-RUN apt update
-RUN apt install -y ca-certificates
-
-RUN apt install -y sudo
-RUN apt install -y ssh
-RUN apt install -y netplan.io
-
-# resizerootfs
-RUN apt install -y udev
-RUN apt install -y parted
-
-# ifconfig
-RUN apt install -y net-tools
-
-# needed by knod-static-nodes to create a list of static device nodes
-RUN apt install -y kmod
+RUN apt update && apt install -y ca-certificates sudo ssh netplan.io udev parted net-tools kmod bridge-utils && apt-get clean
 
 # Install our resizerootfs service
 COPY root/etc/systemd/ /etc/systemd
 
-RUN systemctl enable resizerootfs
-RUN systemctl enable ssh
-RUN systemctl enable systemd-networkd
-RUN systemctl enable setup-resolve
+RUN systemctl enable resizerootfs && systemctl enable ssh && systemctl enable systemd-networkd && systemctl enable setup-resolve
 
-RUN mkdir -p /opt/nvidia/l4t-packages
-RUN touch /opt/nvidia/l4t-packages/.nv-l4t-disable-boot-fw-update-in-preinstall
+RUN mkdir -p /opt/nvidia/l4t-packages && touch /opt/nvidia/l4t-packages/.nv-l4t-disable-boot-fw-update-in-preinstall
 
 COPY root/etc/apt/ /etc/apt
 COPY root/usr/share/keyrings /usr/share/keyrings
-RUN apt update
-
-# nv-l4t-usb-device-mode
-RUN apt install -y bridge-utils
 
 # https://docs.nvidia.com/jetson/l4t/index.html#page/Tegra%20Linux%20Driver%20Package%20Development%20Guide/updating_jetson_and_host.html
 RUN apt install -y -o Dpkg::Options::="--force-overwrite" \
@@ -48,7 +25,7 @@ RUN apt install -y -o Dpkg::Options::="--force-overwrite" \
     nvidia-l4t-kernel-headers \
     nvidia-l4t-cuda \
     jetson-gpio-common \
-    python3-jetson-gpio
+    python3-jetson-gpio && apt-get clean
 
 RUN rm -rf /opt/nvidia/l4t-packages
 
@@ -59,9 +36,9 @@ RUN echo 'jetson:jetson' | chpasswd
 
 RUN usermod -a -G sudo jetson
 
-RUN apt-get update && apt-get install -y wget git nano cmake tar build-essential unzip pkg-config curl g++ python3-dev autotools-dev libicu-dev libbz2-dev libapr1 libapr1-dev libaprutil1-dev automake bash-completion build-essential btrfs-progs dnsutils htop iotop isc-dhcp-client iputils-ping kmod linux-firmware locales net-tools netplan.io pciutils ssh udev sudo unzip usbutils wpasupplicant network-manager python3-pip
+RUN apt-get update && apt-get install -y wget git nano cmake tar build-essential unzip pkg-config curl g++ python3-dev autotools-dev libicu-dev libbz2-dev libapr1 libapr1-dev libaprutil1-dev automake bash-completion build-essential btrfs-progs dnsutils htop iotop isc-dhcp-client iputils-ping kmod linux-firmware locales net-tools netplan.io pciutils ssh udev sudo unzip usbutils wpasupplicant network-manager python3-pip && apt-get clean
 
-RUN apt-get update && apt-get install -y libopencv-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-good1.0-dev libboost-all-dev libeigen3-dev libceres-dev libpoco-dev libtinyxml2-dev liblz4-dev libssl-dev
+RUN apt-get update && apt-get install -y libopencv-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-good1.0-dev libboost-all-dev libeigen3-dev libceres-dev libpoco-dev libtinyxml2-dev liblz4-dev libssl-dev cmake libgoogle-glog-dev libgflags-dev libatlas-base-dev libeigen3-dev libsuitesparse-dev libceres-dev && apt-get clean
 
 RUN mkdir -p /openvins_ws/src && cd /openvins_ws && mkdir dependencies && cd dependencies
 WORKDIR /openvins_ws/dependencies
@@ -73,7 +50,7 @@ WORKDIR /openvins_ws/dependencies
 
 RUN git clone https://github.com/ros/console_bridge.git && cd console_bridge && mkdir build && cd build && cmake .. && make -j8  && make install
 
-RUN git clone --branch v0.5.0 https://github.com/google/glog.git && cd glog && mkdir build && cd build && cmake .. && make -j8  && make install
+#RUN git clone --branch v0.5.0 https://github.com/google/glog.git && cd glog && mkdir build && cd build && cmake .. && make -j8  && make install
 
 #RUN git clone --branch 2.0.0 https://github.com/ceres-solver/ceres-solver.git && cd ceres-solver && mkdir build && cd build && cmake .. && make -j8  && make install
 
@@ -124,11 +101,24 @@ WORKDIR /openvins_ws
 
 RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 RUN curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add -
-RUN apt update && apt-get install python3-dev python3-rosdep python3-rosinstall-generator python3-catkin-tools -y
+
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
+
+RUN echo 'Etc/UTC' > /etc/timezone && apt-get install -q -y --no-install-recommends tzdata && apt-get clean
+RUN apt-get install -y --no-install-recommends     dirmngr     gnupg2     && apt-get clean
+RUN apt-get install -y --no-install-recommends     ros-noetic-ros-core    && apt-get clean
+RUN apt-get install -y --no-install-recommends     ros-noetic-ros-base     && apt-get clean
+RUN apt-get install -y --no-install-recommends     ros-noetic-robot     && apt-get clean
+
+RUN apt-get install -y libeigen3-dev nano git python3-catkin-tools python3-osrf-pycommon cmake libgoogle-glog-dev libgflags-dev libatlas-base-dev libeigen3-dev libsuitesparse-dev libceres-dev python3-dev python3-matplotlib python3-numpy python3-psutil python3-tk && apt-get clean
+
+
+RUN apt-get install python3-dev python3-rosdep python3-rosinstall-generator python3-catkin-tools python3-dev python3-matplotlib python3-numpy python3-psutil python3-tk -y  && apt-get clean
 RUN pip3 install vcstool empy numpy defusedxml future 
 RUN rosdep init && rosdep update
 RUN rosinstall_generator ros_comm common_msgs sensor_msgs image_transport vision_opencv tf mavlink mavros nodelet image_common --rosdistro noetic --deps --wet-only --tar > ros-noetic-wet.rosinstall
-RUN vcs import --input ros-noetic-wet.rosinstall ./src
+RUN vcs import --input ros-noetic-wet.rosinstall ./src && rm -f ros-noetic-wet.rosinstall
 RUN rosdep install --from-paths ./src --ignore-packages-from-source --rosdistro noetic -y
 
 WORKDIR /openvins_ws/src
@@ -145,32 +135,16 @@ ENV ROS_PYTHON_VERSION=3
 
 RUN ./src/mavros/mavros/scripts/install_geographiclib_datasets.sh
 
-RUN catkin build gscam
-
-RUN apt update && apt-get install -y ros-noetic-ros-base
-
-#RUN catkin config --merge-devel --merge-install --install
-
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/aarch64-linux-gnu/tegra
 
-RUN catkin build ov_core
+#RUN catkin build gscam
+
+#RUN catkin build ov_core
 
 #RUN catkin build ov_init
 
 #RUN catkin build ov_msckf
 
 #RUN catkin clean --yes
-ENV LANG=C.UTF-8
-ENV LC_ALL=C.UTF-8
 
-RUN echo 'Etc/UTC' > /etc/timezone &&     apt-get update &&     apt-get install -q -y --no-install-recommends tzdata &&     rm -rf /var/lib/apt/lists/*
-RUN apt-get update && apt-get install -y --no-install-recommends     dirmngr     gnupg2     && rm -rf /var/lib/apt/lists/*
-RUN apt-get update && apt-get install -y --no-install-recommends     ros-noetic-ros-core     && rm -rf /var/lib/apt/lists/*
-RUN apt-get update && apt-get install -y --no-install-recommends     ros-noetic-ros-base     && rm -rf /var/lib/apt/lists/*
-RUN apt-get update && apt-get install -y --no-install-recommends     ros-noetic-robot     && rm -rf /var/lib/apt/lists/*
-
-RUN apt-get update && apt-get install -y libeigen3-dev nano git && apt-get clean
-RUN apt-get install -y python3-catkin-tools python3-osrf-pycommon && apt-get clean
-RUN apt-get install -y cmake libgoogle-glog-dev libgflags-dev libatlas-base-dev libeigen3-dev libsuitesparse-dev libceres-dev && apt-get clean
-RUN apt-get update && apt-get install -y python3-dev python3-matplotlib python3-numpy python3-psutil python3-tk && apt-get clean
 
