@@ -163,7 +163,7 @@ RUN catkin build ov_core
 ENV LANG=C.UTF-8
 ENV LC_ALL=C.UTF-8
 
-RUN echo 'Etc/UTC' > /etc/timezone &&     ln -s /usr/share/zoneinfo/Etc/UTC /etc/localtime &&     apt-get update &&     apt-get install -q -y --no-install-recommends tzdata &&     rm -rf /var/lib/apt/lists/*
+RUN echo 'Etc/UTC' > /etc/timezone &&     apt-get update &&     apt-get install -q -y --no-install-recommends tzdata &&     rm -rf /var/lib/apt/lists/*
 RUN apt-get update && apt-get install -y --no-install-recommends     dirmngr     gnupg2     && rm -rf /var/lib/apt/lists/*
 RUN apt-get update && apt-get install -y --no-install-recommends     ros-noetic-ros-core     && rm -rf /var/lib/apt/lists/*
 RUN apt-get update && apt-get install -y --no-install-recommends     ros-noetic-ros-base     && rm -rf /var/lib/apt/lists/*
