@@ -157,7 +157,7 @@ RUN catkin build ov_core
 
 #RUN catkin build ov_init
 
-RUN catkin build ov_msckf
+#RUN catkin build ov_msckf
 
 #RUN catkin clean --yes
 
