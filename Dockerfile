@@ -148,7 +148,6 @@ RUN apt-get install -y libeigen3-dev nano git python3-catkin-tools python3-osrf-
 
 RUN apt-get install python3-dev python3-rosdep python3-rosinstall-generator python3-catkin-tools python3-dev python3-matplotlib python3-numpy python3-psutil python3-tk -y  && apt-get clean
 RUN pip3 install vcstool empy numpy defusedxml future 
-RUN rosdep init && rosdep update
 RUN rosinstall_generator ros_comm common_msgs sensor_msgs image_transport vision_opencv tf mavlink mavros nodelet image_common --rosdistro noetic --deps --wet-only --tar > ros-noetic-wet.rosinstall
 RUN vcs import --input ros-noetic-wet.rosinstall ./src && rm -f ros-noetic-wet.rosinstall
 RUN rosdep install --from-paths ./src --ignore-packages-from-source --rosdistro noetic -y
