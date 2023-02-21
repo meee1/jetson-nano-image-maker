@@ -147,9 +147,9 @@ RUN ( \
 RUN chmod 755 /ros_entrypoint.sh
 ENTRYPOINT ["/ros_entrypoint.sh"]
 
-RUN source "/opt/ros/noetic/setup.bash" -- ; catkin build
+RUN bash -c source "/opt/ros/noetic/setup.bash" -- && catkin build
 
-RUN source "/opt/ros/noetic/setup.bash" -- ; catkin build gscam
+RUN bash -c source "/opt/ros/noetic/setup.bash" -- && catkin build gscam
 
 #RUN catkin build ov_core
 
