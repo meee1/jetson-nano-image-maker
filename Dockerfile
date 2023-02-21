@@ -152,6 +152,8 @@ RUN rosinstall_generator ros_comm common_msgs sensor_msgs image_transport vision
 RUN vcs import --input ros-noetic-wet.rosinstall ./src && rm -f ros-noetic-wet.rosinstall
 RUN rosdep install --from-paths ./src --ignore-packages-from-source --rosdistro noetic -y
 
+RUN source "/opt/ros/noetic/setup.bash" -- && catkin build
+
 WORKDIR /openvins_ws/src
 
 #RUN git clone https://github.com/orocos/orocos_kinematics_dynamics.git
