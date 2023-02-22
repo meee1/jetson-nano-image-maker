@@ -62,35 +62,35 @@ RUN git clone https://github.com/ros/console_bridge.git && cd console_bridge && 
 
 #RUN git clone https://github.com/lz4/lz4 && cd lz4 && make -j8 && make install
 
-RUN git clone https://github.com/google/googletest.git -b release-1.12.1 && cd googletest && mkdir build && cd build && cmake .. && make -j8  && make install
+#RUN git clone https://github.com/google/googletest.git -b release-1.12.1 && cd googletest && mkdir build && cd build && cmake .. && make -j8  && make install
 
 
-RUN git clone https://github.com/enthought/bzip2-1.0.6.git && cd bzip2-1.0.6 && make -j8  && make install
+#RUN git clone https://github.com/enthought/bzip2-1.0.6.git && cd bzip2-1.0.6 && make -j8  && make install
 
 
-RUN wget https://gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.46.tar.bz2 && tar -xvf libgpg-error-1.46.tar.bz2 && cd libgpg-error-1.46 && ./configure && make -j8  && make install
+#RUN wget https://gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.46.tar.bz2 && tar -xvf libgpg-error-1.46.tar.bz2 && cd libgpg-error-1.46 && ./configure && make -j8  && make install
 
 
 
-RUN wget https://www.gnupg.org/ftp/gcrypt/libassuan/libassuan-2.5.5.tar.bz2 && tar -xvf libassuan-2.5.5.tar.bz2 && cd libassuan-2.5.5 && ./configure && make -j8  && make install
+#RUN wget https://www.gnupg.org/ftp/gcrypt/libassuan/libassuan-2.5.5.tar.bz2 && tar -xvf libassuan-2.5.5.tar.bz2 && cd libassuan-2.5.5 && ./configure && make -j8  && make install
 
 
-RUN wget https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-1.14.0.tar.bz2 && tar -xvf gpgme-1.14.0.tar.bz2 && cd gpgme-1.14.0 && ./configure && make -j8  && make install
+#RUN wget https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-1.14.0.tar.bz2 && tar -xvf gpgme-1.14.0.tar.bz2 && cd gpgme-1.14.0 && ./configure && make -j8  && make install
 
 
-RUN wget https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.10.1.tar.bz2 && tar -xvf libgcrypt-1.10.1.tar.bz2  && cd libgcrypt-1.10.1 && ./configure && make -j8  && make install
+#RUN wget https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.10.1.tar.bz2 && tar -xvf libgcrypt-1.10.1.tar.bz2  && cd libgcrypt-1.10.1 && ./configure && make -j8  && make install
 
 
 #RUN git clone https://github.com/openssl/openssl.git && cd openssl && ./Configure && make -j8 && make install
 
-RUN wget https://archive.apache.org/dist/logging/log4cxx/0.11.0/apache-log4cxx-0.11.0.zip && unzip apache-log4cxx-0.11.0.zip && cd apache-log4cxx-0.11.0 && mkdir build && cd build && cmake .. && make -j8  && make install
+#RUN wget https://archive.apache.org/dist/logging/log4cxx/0.11.0/apache-log4cxx-0.11.0.zip && unzip apache-log4cxx-0.11.0.zip && cd apache-log4cxx-0.11.0 && mkdir build && cd build && cmake .. && make -j8  && make install
 
 
 
-RUN wget https://sourceforge.net/projects/geographiclib/files/distrib-C++/GeographicLib-2.1.2.tar.gz && tar -xvf GeographicLib-2.1.2.tar.gz && cd GeographicLib-2.1.2 && mkdir build && cd build && cmake .. && make -j8 && make install
+#RUN wget https://sourceforge.net/projects/geographiclib/files/distrib-C++/GeographicLib-2.1.2.tar.gz && tar -xvf GeographicLib-2.1.2.tar.gz && cd GeographicLib-2.1.2 && mkdir build && cd build && cmake .. && make -j8 && make install
 
 
-RUN wget https://github.com/jbeder/yaml-cpp/archive/refs/tags/yaml-cpp-0.7.0.tar.gz && tar -xvf yaml-cpp-0.7.0.tar.gz && cd yaml-cpp-yaml-cpp-0.7.0 && mkdir build && cd build && cmake -DYAML_BUILD_SHARED_LIBS=on .. && make -j8 && make install
+#RUN wget https://github.com/jbeder/yaml-cpp/archive/refs/tags/yaml-cpp-0.7.0.tar.gz && tar -xvf yaml-cpp-0.7.0.tar.gz && cd yaml-cpp-yaml-cpp-0.7.0 && mkdir build && cd build && cmake -DYAML_BUILD_SHARED_LIBS=on .. && make -j8 && make install
 
 #RUN wget https://gitlab.freedesktop.org/gstreamer/gstreamer/-/archive/1.14/gstreamer-1.14.tar.gz && tar -xvf gstreamer-1.14.tar.gz && cd gstreamer-1.14 && mkdir build && meson build && cd build && ninja && ninja install 
 
@@ -144,9 +144,13 @@ RUN chmod 755 /ros_entrypoint.sh
 ENTRYPOINT ["/ros_entrypoint.sh"]
 SHELL ["/bin/bash", "-c"]
 
-RUN apt-get install -y libeigen3-dev nano git python3-catkin-tools python3-osrf-pycommon cmake libgoogle-glog-dev libgflags-dev libatlas-base-dev libeigen3-dev libsuitesparse-dev libceres-dev python3-dev python3-matplotlib python3-numpy python3-psutil python3-tk && apt-get clean
+RUN apt-get install -y libeigen3-dev nano git python3-catkin-tools python3-osrf-pycommon cmake \
+	libgoogle-glog-dev libgflags-dev libatlas-base-dev libeigen3-dev libsuitesparse-dev \
+	libceres-dev python3-dev python3-matplotlib python3-numpy python3-psutil python3-tk \
+	libgeographic-dev liblog4cxx-dev libgpg-error-dev libgcrypt20-dev && apt-get clean
 
-RUN apt-get install python3-dev python3-rosdep python3-rosinstall-generator python3-catkin-tools python3-dev python3-matplotlib python3-numpy python3-psutil python3-tk -y  && apt-get clean
+RUN apt-get install python3-dev python3-rosdep python3-rosinstall-generator python3-catkin-tools \
+	python3-dev python3-matplotlib python3-numpy python3-psutil python3-tk -y  && apt-get clean
 RUN pip3 install vcstool empy numpy defusedxml future 
 RUN rosinstall_generator ros_comm common_msgs sensor_msgs image_transport vision_opencv tf mavlink mavros nodelet image_common --rosdistro noetic --deps --wet-only --tar > ros-noetic-wet.rosinstall
 RUN vcs import --input ros-noetic-wet.rosinstall ./src && rm -f ros-noetic-wet.rosinstall
