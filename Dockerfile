@@ -102,8 +102,8 @@ RUN wget https://github.com/jbeder/yaml-cpp/archive/refs/tags/yaml-cpp-0.7.0.tar
 WORKDIR /openvins_ws
 
 # =========================================================
-RUN echo 'Etc/UTC' > /etc/timezone && apt-get update && apt-get install -q -y --no-install-recommends tzdata && rm -rf /var/lib/apt/lists/*
-RUN apt-get update && apt-get install -q -y --no-install-recommends dirmngr gnupg2 && rm -rf /var/lib/apt/lists/*
+RUN echo 'Etc/UTC' > /etc/timezone && apt-get update && apt-get install -q -y --no-install-recommends tzdata && apt-get clean
+RUN apt-get update && apt-get install -q -y --no-install-recommends dirmngr gnupg2 && apt-get clean
 RUN echo "deb http://packages.ros.org/ros/ubuntu focal main" > /etc/apt/sources.list.d/ros1-latest.list
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 	
@@ -113,21 +113,21 @@ ENV LC_ALL=C.UTF-8
 
 ENV ROS_DISTRO=noetic
 
-RUN apt-get update && apt-get install -y --no-install-recommends ros-noetic-ros-core=1.5.0-1* && rm -rf /var/lib/apt/lists/*
-RUN apt-get update && apt-get install --no-install-recommends -y build-essential python3-rosdep python3-rosinstall python3-vcstools && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends ros-noetic-ros-core=1.5.0-1* && apt-get clean
+RUN apt-get update && apt-get install --no-install-recommends -y build-essential python3-rosdep python3-rosinstall python3-vcstools && apt-get clean
 	
 RUN rosdep init && rosdep update --rosdistro $ROS_DISTRO
-RUN apt-get update && apt-get install -y --no-install-recommends ros-noetic-ros-base=1.5.0-1* && rm -rf /var/lib/apt/lists/*
-RUN apt-get update && apt-get install -y --no-install-recommends ros-noetic-robot=1.5.0-1* && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends ros-noetic-ros-base=1.5.0-1* && apt-get clean
+RUN apt-get update && apt-get install -y --no-install-recommends ros-noetic-robot=1.5.0-1* && apt-get clean
 
-RUN apt-get update && apt-get install -y --no-install-recommends ros-noetic-desktop=1.5.0-1* && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends ros-noetic-desktop=1.5.0-1* && apt-get clean
 # =========================================================
-RUN apt-get update && apt-get install -y libeigen3-dev nano git
-RUN apt-get install -y python3-catkin-tools python3-osrf-pycommon
+RUN apt-get update && apt-get install -y libeigen3-dev nano git && apt-get clean
+RUN apt-get install -y python3-catkin-tools python3-osrf-pycommon && apt-get clean
 
-RUN apt-get install -y cmake libgoogle-glog-dev libgflags-dev libatlas-base-dev libeigen3-dev libsuitesparse-dev libceres-dev
+RUN apt-get install -y cmake libgoogle-glog-dev libgflags-dev libatlas-base-dev libeigen3-dev libsuitesparse-dev libceres-dev && apt-get clean
 
-RUN apt-get update && apt-get install -y python3-dev python3-matplotlib python3-numpy python3-psutil python3-tk
+RUN apt-get update && apt-get install -y python3-dev python3-matplotlib python3-numpy python3-psutil python3-tk && apt-get clean
 
 RUN apt-get update && apt-get install -y ssh build-essential gcc g++ \
     gdb clang cmake rsync tar python && apt-get clean
@@ -151,8 +151,9 @@ RUN pip3 install vcstool empy numpy defusedxml future
 RUN rosinstall_generator ros_comm common_msgs sensor_msgs image_transport vision_opencv tf mavlink mavros nodelet image_common --rosdistro noetic --deps --wet-only --tar > ros-noetic-wet.rosinstall
 RUN vcs import --input ros-noetic-wet.rosinstall ./src && rm -f ros-noetic-wet.rosinstall
 RUN rosdep install --from-paths ./src --ignore-packages-from-source --rosdistro noetic -y
+RUN rm -f ros-noetic-wet.rosinstall
 
-RUN source "/opt/ros/noetic/setup.bash" -- && catkin build
+#RUN source "/opt/ros/noetic/setup.bash" -- && catkin build
 
 WORKDIR /openvins_ws/src
 
