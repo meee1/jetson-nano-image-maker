@@ -158,9 +158,9 @@ WORKDIR /openvins_ws/src
 
 #RUN git clone https://github.com/orocos/orocos_kinematics_dynamics.git
 
-RUN git clone https://github.com/rpng/open_vins.git
+RUN git clone --depth 4 https://github.com/rpng/open_vins.git
 
-RUN git clone https://github.com/ioarun/gscam.git
+RUN git clone --depth 4 https://github.com/ioarun/gscam.git
 
 WORKDIR /openvins_ws
 
