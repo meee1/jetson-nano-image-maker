@@ -157,7 +157,7 @@ RUN vcs import --input ros-noetic-wet.rosinstall ./src && rm -f ros-noetic-wet.r
 RUN rosdep install --from-paths ./src --ignore-packages-from-source --rosdistro noetic -y
 RUN rm -f ros-noetic-wet.rosinstall
 
-#RUN source "/opt/ros/noetic/setup.bash" -- && catkin build
+RUN source "/opt/ros/noetic/setup.bash" -- && catkin build
 
 WORKDIR /openvins_ws/src
 
