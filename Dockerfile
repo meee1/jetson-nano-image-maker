@@ -175,7 +175,7 @@ RUN ./src/mavros/mavros/scripts/install_geographiclib_datasets.sh
 
 
 
-RUN source "/opt/ros/noetic/setup.bash" -- && catkin build
+#RUN source "/opt/ros/noetic/setup.bash" -- && catkin build
 
 #RUN source "/opt/ros/noetic/setup.bash" -- && catkin build gscam
 
